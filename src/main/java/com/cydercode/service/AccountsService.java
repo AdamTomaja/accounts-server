@@ -4,6 +4,7 @@ import com.cydercode.exception.RegisterException;
 import com.cydercode.exception.RegisterExceptionType;
 import com.cydercode.model.Account;
 import com.cydercode.repository.AccountsRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,11 +23,13 @@ public class AccountsService {
 
         checkPreconditions(username, email);
 
-        Account account = Account.builder()
-                .username(username)
-                .email(email)
-                .passwordHash(createPasswordHash(password))
-                .build();
+    Account account =
+        Account.builder()
+            .username(username)
+            .email(email)
+            .passwordHash(createPasswordHash(password))
+            .emailVerificationToken(UUID.randomUUID().toString())
+            .build();
 
         Account savedAccount = accountsRepository.save(account);
         log.info("Account registered with id: {}", savedAccount.getId());

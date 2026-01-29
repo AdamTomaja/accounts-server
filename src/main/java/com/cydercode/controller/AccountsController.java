@@ -1,9 +1,12 @@
 package com.cydercode.controller;
 
-import com.cydercode.dto.RegisterAccountRequest;
-import com.cydercode.dto.RegisterAccountResponse;
+import com.cydercode.dto.emailVerification.VerifyEmailRequest;
+import com.cydercode.dto.emailVerification.VerifyEmailResponse;
+import com.cydercode.dto.registration.RegisterAccountRequest;
+import com.cydercode.dto.registration.RegisterAccountResponse;
 import com.cydercode.exception.RegisterException;
 import com.cydercode.service.AccountsService;
+import com.cydercode.service.EmailVerificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountsController {
 
     private final AccountsService accountsService;
+    private final EmailVerificationService emailVerificationService;
 
     @PostMapping("/accounts")
     public RegisterAccountResponse registerAccount(@Valid @RequestBody RegisterAccountRequest request)
@@ -22,5 +26,11 @@ public class AccountsController {
         return new RegisterAccountResponse(
                 accountsService
                         .registerAccount(request.getUsername(), request.getEmail(), request.getPassword()));
+    }
+
+    @PostMapping("/verify-email")
+    public VerifyEmailResponse verifyEmail(@Valid @RequestBody VerifyEmailRequest request) {
+        emailVerificationService.verifyEmail(request.getVerificationToken());
+        return new VerifyEmailResponse();
     }
 }

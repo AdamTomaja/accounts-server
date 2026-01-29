@@ -28,6 +28,9 @@ public class Account {
     private String passwordHash;
     private String email;
 
+    private Instant emailVerifiedAt;
+    private String emailVerificationToken;
+
     @CreationTimestamp
     private Instant createdAt;
     @UpdateTimestamp

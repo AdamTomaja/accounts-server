@@ -1,4 +1,4 @@
-package com.cydercode.dto;
+package com.cydercode.dto.registration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -10,4 +10,7 @@ public interface AccountsRepository extends CrudRepository<Account, Long> {
     int countByEmailIgnoreCase(String email);
 
     Optional<Account> findByEmailVerificationToken(String emailVerificationToken);
+
+    Optional<Account> findByUsernameIgnoreCase(String username);
+    Optional<Account> findByEmailIgnoreCase(String email);
 }

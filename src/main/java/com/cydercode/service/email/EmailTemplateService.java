@@ -10,13 +10,15 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 @RequiredArgsConstructor
 public class EmailTemplateService {
 
+    private static final String MAIL_TEMPLATE_PREFIX = "mail/";
+
     private final SpringTemplateEngine springTemplateEngine;
 
     public RenderedEmail renderTemplate(String template, Map<String, Object> variables) {
         return new RenderedEmail(
-                renderSubject( "mail/" +template + "/" + template+ ".subject", variables),
-                renderText("mail/" + template + "/" + template + ".txt", variables),
-                renderHtml("mail/" + template + "/" + template  + ".html", variables));
+                renderSubject( MAIL_TEMPLATE_PREFIX + template + "/" + template+ ".subject", variables),
+                renderText(MAIL_TEMPLATE_PREFIX + template + "/" + template + ".txt", variables),
+                renderHtml(MAIL_TEMPLATE_PREFIX + template + "/" + template  + ".html", variables));
     }
 
     public String renderHtml(String template, Map<String, Object> variables) {

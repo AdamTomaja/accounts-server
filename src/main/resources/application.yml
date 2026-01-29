@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: "Accounts-Server"
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/mydatabase"
+    username: "myuser"
+    password: "mypassword"
+logging:
+  level:
+    org.flywaydb: DEBUG

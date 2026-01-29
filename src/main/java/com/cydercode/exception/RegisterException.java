@@ -9,4 +9,11 @@ import lombok.RequiredArgsConstructor;
 public class RegisterException extends Exception {
 
     private final RegisterExceptionType type;
+
+    @Override
+    public String toString() {
+        return "RegisterException{" +
+                "type=" + type +
+                '}';
+    }
 }

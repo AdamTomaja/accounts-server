@@ -1,0 +1,4 @@
+Cześć [[${username}]]
+
+Gratulacje! Twoje konto zostało aktywowane.
+Możesz je teraz używać bez ograniczeń.

@@ -52,7 +52,7 @@ public class AccountsService {
                 "username", savedAccount.getUsername(),
                 "activationLink", activationLink);
         try {
-            mailService.sendTemplate(savedAccount.getUsername(), savedAccount.getEmail(), "mail/activation", variables);
+            mailService.sendTemplate(savedAccount.getUsername(), savedAccount.getEmail(), "activation", variables);
         } catch (MailjetException e) {
             log.error("Error sending confirmation email", e);
             throw new RuntimeException(e);

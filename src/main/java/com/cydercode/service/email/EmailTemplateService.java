@@ -14,9 +14,9 @@ public class EmailTemplateService {
 
     public RenderedEmail renderTemplate(String template, Map<String, Object> variables) {
         return new RenderedEmail(
-                renderSubject(template + ".subject", variables),
-                renderText(template, variables),
-                renderHtml(template , variables));
+                renderSubject( "mail/" +template + "/" + template+ ".subject", variables),
+                renderText("mail/" + template + "/" + template + ".txt", variables),
+                renderHtml("mail/" + template + "/" + template  + ".html", variables));
     }
 
     public String renderHtml(String template, Map<String, Object> variables) {

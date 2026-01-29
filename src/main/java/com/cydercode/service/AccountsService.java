@@ -1,14 +1,19 @@
 package com.cydercode.service;
 
+import com.cydercode.config.AppConfig;
 import com.cydercode.exception.RegisterException;
 import com.cydercode.exception.RegisterExceptionType;
 import com.cydercode.model.Account;
 import com.cydercode.repository.AccountsRepository;
+import com.cydercode.service.email.MailService;
+import com.mailjet.client.errors.MailjetException;
+import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +22,10 @@ public class AccountsService {
 
     private final AccountsRepository accountsRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
+    private final AppConfig appConfig;
 
+    @Transactional
     public long registerAccount(String username, String email, String password) throws RegisterException {
         log.info("Registering account with username: {}, email: {}", username, email);
 
@@ -33,7 +41,22 @@ public class AccountsService {
 
         Account savedAccount = accountsRepository.save(account);
         log.info("Account registered with id: {}", savedAccount.getId());
+        sendEmailVerification(savedAccount, account);
         return savedAccount.getId();
+    }
+
+    private void sendEmailVerification(Account savedAccount, Account account) {
+        log.info("Sending email verification to account with id: {}", savedAccount.getId());
+        String activationLink = appConfig.getActivationBaseUrl() + savedAccount.getEmailVerificationToken();
+        Map<String, Object> variables = Map.of(
+                "username", savedAccount.getUsername(),
+                "activationLink", activationLink);
+        try {
+            mailService.sendTemplate(savedAccount.getUsername(), savedAccount.getEmail(), "mail/activation", variables);
+        } catch (MailjetException e) {
+            log.error("Error sending confirmation email", e);
+            throw new RuntimeException(e);
+        }
     }
 
     private void checkPreconditions(String username, String email) throws RegisterException {

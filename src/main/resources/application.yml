@@ -1,3 +1,10 @@
+app:
+  email-verification-url: "http://localhost:8080/verify-email?token="
+  mailjet:
+    apiKey: "${MAILJET_API_KEY}"
+    secretKey: "${MAILJET_SECRET_KEY}"
+    fromEmail: "${FROM_EMAIL}"
+    fromName: "${FROM_NAME}"
 spring:
   application:
     name: "Accounts-Server"

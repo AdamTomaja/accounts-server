@@ -39,9 +39,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-flyway'
     implementation 'org.postgresql:postgresql'
 
+    // Mails
+    implementation 'com.mailjet:mailjet-client:6.0.1'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
 
     // Flyway
-
     runtimeOnly 'org.flywaydb:flyway-database-postgresql'
 
     // Test impls

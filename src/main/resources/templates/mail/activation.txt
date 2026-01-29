@@ -1,0 +1,6 @@
+Cześć [[${username}]]
+
+Dziękujemy za rejestrację.
+
+Aktywuj konto:
+[[${activationLink}]]

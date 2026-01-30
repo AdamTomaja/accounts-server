@@ -33,6 +33,9 @@ public class Account {
 
     private short authenticationAttempts;
 
+    private String resetPasswordToken;
+    private Instant resetPasswordExpiresAt;
+
     @CreationTimestamp
     private Instant createdAt;
     @UpdateTimestamp

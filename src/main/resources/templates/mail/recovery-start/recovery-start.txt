@@ -1,0 +1,5 @@
+Cześć [[${username}]]
+
+Aby zmienić swoje hasło i odzyskać dostęp do konta, kliknij w poniższy link.
+
+Zmień hasło: [[${recoveryUrl}]]

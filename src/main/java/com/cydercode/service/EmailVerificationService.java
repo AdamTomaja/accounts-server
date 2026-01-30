@@ -5,6 +5,7 @@ import com.cydercode.repository.AccountsRepository;
 import com.cydercode.service.email.MailService;
 import com.mailjet.client.errors.MailjetException;
 import jakarta.transaction.Transactional;
+import java.time.Instant;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class EmailVerificationService {
             .findByEmailVerificationToken(emailVerificationToken)
             .orElseThrow(() -> new RuntimeException("Email verification token not found"));
 
-    account.setEmailVerifiedAt(java.time.Instant.now());
+    account.setEmailVerifiedAt(Instant.now());
     account.setEmailVerificationToken(null);
     Account savedAccount = accountsRepository.save(account);
     sendActivationSuccessEmail(savedAccount);

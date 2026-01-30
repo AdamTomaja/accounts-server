@@ -1,0 +1,3 @@
+Cześć [[${username}]]
+
+Gratulacje! Twoje hasło zostało zmienione, możesz teraz korzystać ze swojego konta bez ograniczeń.

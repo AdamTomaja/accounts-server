@@ -11,4 +11,7 @@ public class AppConfig {
     @Value("${app.email-verification-url}")
     private String activationBaseUrl;
 
+    @Value("${app.recovery-url}")
+    private String recoveryUrl;
+
 }

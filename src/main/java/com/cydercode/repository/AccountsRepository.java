@@ -16,4 +16,5 @@ public interface AccountsRepository extends CrudRepository<Account, Long> {
 
     Optional<Account> findByUsernameIgnoreCase(String username);
     Optional<Account> findByEmailIgnoreCase(String email);
+    Optional<Account> findByResetPasswordToken(String resetPasswordToken);
 }

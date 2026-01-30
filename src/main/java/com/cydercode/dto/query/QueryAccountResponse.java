@@ -8,9 +8,9 @@ import lombok.Data;
 @Builder
 public class QueryAccountResponse {
 
-    private String username;
-    private String email;
-    private boolean emailVerified;
-    private Instant createdAt;
-    private Instant updatedAt;
+  private String username;
+  private String email;
+  private boolean emailVerified;
+  private Instant createdAt;
+  private Instant updatedAt;
 }

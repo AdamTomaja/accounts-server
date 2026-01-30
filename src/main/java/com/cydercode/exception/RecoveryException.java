@@ -9,6 +9,5 @@ import lombok.ToString;
 @ToString
 public class RecoveryException extends Exception {
 
-    private final RecoveryExceptionType type;
-
+  private final RecoveryExceptionType type;
 }

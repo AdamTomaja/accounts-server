@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class EmailVerificationController {
 
-    private final EmailVerificationService emailVerificationService;
+  private final EmailVerificationService emailVerificationService;
 
-    @PostMapping("/verify-email")
-    public VerifyEmailResponse verifyEmail(@Valid @RequestBody VerifyEmailRequest request) throws MailjetException {
-        emailVerificationService.verifyEmail(request.getVerificationToken());
-        return new VerifyEmailResponse();
-    }
+  @PostMapping("/verify-email")
+  public VerifyEmailResponse verifyEmail(@Valid @RequestBody VerifyEmailRequest request)
+      throws MailjetException {
+    emailVerificationService.verifyEmail(request.getVerificationToken());
+    return new VerifyEmailResponse();
+  }
 }

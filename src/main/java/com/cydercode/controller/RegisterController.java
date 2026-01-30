@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RegisterController {
 
-    private final AccountsService accountsService;
+  private final AccountsService accountsService;
 
-    @PostMapping("/accounts")
-    public RegisterAccountResponse registerAccount(@Valid @RequestBody RegisterAccountRequest request)
-            throws RegisterException {
-        return new RegisterAccountResponse(
-                accountsService
-                        .registerAccount(request.getUsername(),
-                                request.getEmail(),
-                                request.getPassword(),
-                                request.getConfirmPassword()));
-    }
+  @PostMapping("/accounts")
+  public RegisterAccountResponse registerAccount(@Valid @RequestBody RegisterAccountRequest request)
+      throws RegisterException {
+    return new RegisterAccountResponse(
+        accountsService.registerAccount(
+            request.getUsername(),
+            request.getEmail(),
+            request.getPassword(),
+            request.getConfirmPassword()));
+  }
 }

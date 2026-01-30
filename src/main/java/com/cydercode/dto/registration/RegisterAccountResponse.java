@@ -7,6 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RegisterAccountResponse {
 
-    private final long id;
-
+  private final long id;
 }

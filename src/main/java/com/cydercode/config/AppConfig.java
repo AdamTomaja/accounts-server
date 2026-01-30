@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class AppConfig {
 
-    @Value("${app.email-verification-url}")
-    private String activationBaseUrl;
+  @Value("${app.email-verification-url}")
+  private String activationBaseUrl;
 
-    @Value("${app.recovery-url}")
-    private String recoveryUrl;
-
+  @Value("${app.recovery-url}")
+  private String recoveryUrl;
 }

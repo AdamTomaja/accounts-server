@@ -6,15 +6,21 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AccountsRepository extends CrudRepository<Account, Long> {
 
-    int countByUsernameIgnoreCase(String username);
-    int countByEmailIgnoreCase(String email);
-    long countByEmailVerifiedAtIsNull();
-    long countByEmailVerifiedAtIsNotNull();
-    long countByAuthenticationAttemptsIsGreaterThanEqual(short authenticationAttemptsIsGreaterThan);
+  int countByUsernameIgnoreCase(String username);
 
-    Optional<Account> findByEmailVerificationToken(String emailVerificationToken);
+  int countByEmailIgnoreCase(String email);
 
-    Optional<Account> findByUsernameIgnoreCase(String username);
-    Optional<Account> findByEmailIgnoreCase(String email);
-    Optional<Account> findByResetPasswordToken(String resetPasswordToken);
+  long countByEmailVerifiedAtIsNull();
+
+  long countByEmailVerifiedAtIsNotNull();
+
+  long countByAuthenticationAttemptsIsGreaterThanEqual(short authenticationAttemptsIsGreaterThan);
+
+  Optional<Account> findByEmailVerificationToken(String emailVerificationToken);
+
+  Optional<Account> findByUsernameIgnoreCase(String username);
+
+  Optional<Account> findByEmailIgnoreCase(String email);
+
+  Optional<Account> findByResetPasswordToken(String resetPasswordToken);
 }

@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class StatsController {
 
-    private final StatsService statsService;
+  private final StatsService statsService;
 
-    @GetMapping("/stats")
-    public StatsResponse getStats() {
-        return statsService.getStats();
-    }
+  @GetMapping("/stats")
+  public StatsResponse getStats() {
+    return statsService.getStats();
+  }
 }

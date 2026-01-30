@@ -20,24 +20,22 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Builder
 public class Account {
 
-    @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+  private Long id;
 
-    private String username;
-    private String passwordHash;
-    private String email;
+  private String username;
+  private String passwordHash;
+  private String email;
 
-    private Instant emailVerifiedAt;
-    private String emailVerificationToken;
+  private Instant emailVerifiedAt;
+  private String emailVerificationToken;
 
-    private short authenticationAttempts;
+  private short authenticationAttempts;
 
-    private String resetPasswordToken;
-    private Instant resetPasswordExpiresAt;
+  private String resetPasswordToken;
+  private Instant resetPasswordExpiresAt;
 
-    @CreationTimestamp
-    private Instant createdAt;
-    @UpdateTimestamp
-    private Instant updatedAt;
+  @CreationTimestamp private Instant createdAt;
+  @UpdateTimestamp private Instant updatedAt;
 }

@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @RequiredArgsConstructor
 @ToString
-public class AuthenticationException extends Exception{
+public class AuthenticationException extends Exception {
 
-    private final AuthenticationExceptionType type;
+  private final AuthenticationExceptionType type;
 }

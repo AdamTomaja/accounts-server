@@ -7,8 +7,8 @@ import lombok.Data;
 @Builder
 public class StatsResponse {
 
-    private long totalAccounts;
-    private long verifiedAccounts;
-    private long unverifiedAccounts;
-    private long lockedAccounts;
+  private long totalAccounts;
+  private long verifiedAccounts;
+  private long unverifiedAccounts;
+  private long lockedAccounts;
 }

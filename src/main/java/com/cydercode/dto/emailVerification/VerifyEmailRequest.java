@@ -6,7 +6,5 @@ import lombok.Data;
 @Data
 public class VerifyEmailRequest {
 
-    @NotBlank
-    private String verificationToken;
-
+  @NotBlank private String verificationToken;
 }

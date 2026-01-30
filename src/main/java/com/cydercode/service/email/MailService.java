@@ -17,50 +17,60 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailService {
 
-    private final MailjetConfig mailjetConfig;
-    private final EmailTemplateService emailTemplateService;
+  private final MailjetConfig mailjetConfig;
+  private final EmailTemplateService emailTemplateService;
 
-    public void sendTemplate(String username, String email, String templateName, Map<String, Object> variables)
-            throws MailjetException {
-        RenderedEmail renderedEmail = emailTemplateService.renderTemplate(templateName, variables);
+  public void sendTemplate(
+      String username, String email, String templateName, Map<String, Object> variables)
+      throws MailjetException {
+    RenderedEmail renderedEmail = emailTemplateService.renderTemplate(templateName, variables);
     sendEmail(
         username,
         email,
         renderedEmail.subject(),
         renderedEmail.textContent(),
         renderedEmail.htmlContent());
-    }
+  }
 
-    public void sendEmail(String username, String email, String subject, String textContent, String htmlContent) throws MailjetException {
-        MailjetClient client;
-        MailjetRequest request;
-        MailjetResponse response;
-        ClientOptions clientOptions = createClientOptions();
-        client = new MailjetClient(clientOptions);
-        request = new MailjetRequest(Emailv31.resource)
-                .property(Emailv31.MESSAGES, new JSONArray()
-                        .put(new JSONObject()
-                                .put(Emailv31.Message.FROM, new JSONObject()
-                                        .put("Email", mailjetConfig.getFromEmail())
-                                        .put("Name", mailjetConfig.getFromName()))
-                                .put(Emailv31.Message.TO, new JSONArray()
-                                        .put(new JSONObject()
-                                                .put("Email", email)
-                                                .put("Name", username)))
-                                .put(Emailv31.Message.SUBJECT, subject)
-                                .put(Emailv31.Message.TEXTPART, textContent)
-                                .put(Emailv31.Message.HTMLPART, htmlContent)));
-        response = client.post(request);
-        System.out.println(response.getStatus());
-        System.out.println(response.getData());
-    }
+  public void sendEmail(
+      String username, String email, String subject, String textContent, String htmlContent)
+      throws MailjetException {
+    MailjetClient client;
+    MailjetRequest request;
+    MailjetResponse response;
+    ClientOptions clientOptions = createClientOptions();
+    client = new MailjetClient(clientOptions);
+    request =
+        new MailjetRequest(Emailv31.resource)
+            .property(
+                Emailv31.MESSAGES,
+                new JSONArray()
+                    .put(
+                        new JSONObject()
+                            .put(
+                                Emailv31.Message.FROM,
+                                new JSONObject()
+                                    .put("Email", mailjetConfig.getFromEmail())
+                                    .put("Name", mailjetConfig.getFromName()))
+                            .put(
+                                Emailv31.Message.TO,
+                                new JSONArray()
+                                    .put(
+                                        new JSONObject().put("Email", email).put("Name", username)))
+                            .put(Emailv31.Message.SUBJECT, subject)
+                            .put(Emailv31.Message.TEXTPART, textContent)
+                            .put(Emailv31.Message.HTMLPART, htmlContent)));
+    response = client.post(request);
+    System.out.println(response.getStatus());
+    System.out.println(response.getData());
+  }
 
-    private ClientOptions createClientOptions() {
-        ClientOptions clientOptions =
-            ClientOptions.builder()
-                .apiKey(mailjetConfig.getApiKey())
-                .apiSecretKey(mailjetConfig.getSecretKey())
-                .build();
-        return clientOptions;
-    }
+  private ClientOptions createClientOptions() {
+    ClientOptions clientOptions =
+        ClientOptions.builder()
+            .apiKey(mailjetConfig.getApiKey())
+            .apiSecretKey(mailjetConfig.getSecretKey())
+            .build();
+    return clientOptions;
+  }
 }

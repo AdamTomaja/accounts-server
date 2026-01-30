@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticateController {
 
-    private final AccountsService accountsService;
-    private final AccountMapper accountMapper;
+  private final AccountsService accountsService;
+  private final AccountMapper accountMapper;
 
-    @PostMapping("/accounts/authenticate")
-    public QueryAccountResponse authenticate(@RequestBody @Valid AuthenticateRequest request) throws AuthenticationException {
-        return accountMapper.toQueryAccountResponse(
-                accountsService.checkCredentials(request.getEmail(), request.getPassword()));
-    }
+  @PostMapping("/accounts/authenticate")
+  public QueryAccountResponse authenticate(@RequestBody @Valid AuthenticateRequest request)
+      throws AuthenticationException {
+    return accountMapper.toQueryAccountResponse(
+        accountsService.checkCredentials(request.getEmail(), request.getPassword()));
+  }
 }

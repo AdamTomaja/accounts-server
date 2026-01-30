@@ -23,7 +23,7 @@ import org.thymeleaf.util.StringUtils;
 @Slf4j
 public class AccountsService {
 
-    private final static short MAX_AUTHENTICATION_ATTEMPTS = 5;
+    public final static short MAX_AUTHENTICATION_ATTEMPTS = 5;
 
     private final AccountsRepository accountsRepository;
     private final PasswordEncoder passwordEncoder;

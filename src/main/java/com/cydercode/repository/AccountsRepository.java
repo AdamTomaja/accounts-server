@@ -8,6 +8,9 @@ public interface AccountsRepository extends CrudRepository<Account, Long> {
 
     int countByUsernameIgnoreCase(String username);
     int countByEmailIgnoreCase(String email);
+    long countByEmailVerifiedAtIsNull();
+    long countByEmailVerifiedAtIsNotNull();
+    long countByAuthenticationAttemptsIsGreaterThanEqual(short authenticationAttemptsIsGreaterThan);
 
     Optional<Account> findByEmailVerificationToken(String emailVerificationToken);
 

@@ -1,12 +1,17 @@
 package com.cydercode.service;
 
 import com.cydercode.config.AppConfig;
+import com.cydercode.exception.AuthenticationException;
+import com.cydercode.exception.AuthenticationExceptionType;
 import com.cydercode.exception.RegisterException;
 import com.cydercode.exception.RegisterExceptionType;
 import com.cydercode.model.Account;
 import com.cydercode.repository.AccountsRepository;
 import com.cydercode.service.email.MailService;
 import com.mailjet.client.errors.MailjetException;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -26,23 +32,31 @@ public class AccountsService {
     private final AppConfig appConfig;
 
     @Transactional
-    public long registerAccount(String username, String email, String password) throws RegisterException {
+    public long registerAccount(String username, String email, String password, String confirmPassword) throws RegisterException {
         log.info("Registering account with username: {}, email: {}", username, email);
 
         checkPreconditions(username, email);
-
-    Account account =
-        Account.builder()
-            .username(username)
-            .email(email)
-            .passwordHash(createPasswordHash(password))
-            .emailVerificationToken(UUID.randomUUID().toString())
-            .build();
+        checkPassword(password, confirmPassword);
+        log.info("Preconditions checked");
+        Account account =
+            Account.builder()
+                .username(username)
+                .email(email)
+                .passwordHash(createPasswordHash(password))
+                .emailVerificationToken(UUID.randomUUID().toString())
+                .build();
 
         Account savedAccount = accountsRepository.save(account);
         log.info("Account registered with id: {}", savedAccount.getId());
         sendEmailVerification(savedAccount, account);
+        log.info("Email verification sent to account with id: {}", savedAccount.getId());
         return savedAccount.getId();
+    }
+
+    private void checkPassword(String password, String confirmPassword) throws RegisterException {
+        if( !StringUtils.equals(password, confirmPassword)) {
+            throw new RegisterException(RegisterExceptionType.CONFIRM_PASSWORD_MISMATCH);
+        }
     }
 
     private void sendEmailVerification(Account savedAccount, Account account) {
@@ -79,5 +93,20 @@ public class AccountsService {
 
     private String createPasswordHash(String password) {
         return passwordEncoder.encode(password);
+    }
+
+    public Account checkCredentials(String email, String password) throws AuthenticationException {
+        Account account = accountsRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new AuthenticationException(AuthenticationExceptionType.INVALID_CREDENTIALS));
+
+        if(account.getEmailVerifiedAt() == null) {
+            throw new AuthenticationException(AuthenticationExceptionType.EMAIL_NOT_VERIFIED);
+        }
+
+        if (!passwordEncoder.matches(password, account.getPasswordHash())) {
+            throw new AuthenticationException(AuthenticationExceptionType.INVALID_CREDENTIALS);
+        }
+        log.info("Credentials checked for account with id: {}", account.getId());
+        return account;
     }
 }

@@ -21,6 +21,9 @@ public class AccountsController {
             throws RegisterException {
         return new RegisterAccountResponse(
                 accountsService
-                        .registerAccount(request.getUsername(), request.getEmail(), request.getPassword()));
+                        .registerAccount(request.getUsername(),
+                                request.getEmail(),
+                                request.getPassword(),
+                                request.getConfirmPassword()));
     }
 }

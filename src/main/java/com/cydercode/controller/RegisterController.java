@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class AccountsController {
+public class RegisterController {
 
     private final AccountsService accountsService;
 

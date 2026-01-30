@@ -9,9 +9,6 @@ import com.cydercode.model.Account;
 import com.cydercode.repository.AccountsRepository;
 import com.cydercode.service.email.MailService;
 import com.mailjet.client.errors.MailjetException;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +22,8 @@ import org.thymeleaf.util.StringUtils;
 @RequiredArgsConstructor
 @Slf4j
 public class AccountsService {
+
+    private final static short MAX_AUTHENTICATION_ATTEMPTS = 5;
 
     private final AccountsRepository accountsRepository;
     private final PasswordEncoder passwordEncoder;
@@ -95,6 +94,7 @@ public class AccountsService {
         return passwordEncoder.encode(password);
     }
 
+    @Transactional
     public Account checkCredentials(String email, String password) throws AuthenticationException {
         Account account = accountsRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new AuthenticationException(AuthenticationExceptionType.INVALID_CREDENTIALS));
@@ -103,9 +103,16 @@ public class AccountsService {
             throw new AuthenticationException(AuthenticationExceptionType.EMAIL_NOT_VERIFIED);
         }
 
+        if(account.getAuthenticationAttempts() >= MAX_AUTHENTICATION_ATTEMPTS) {
+            throw new AuthenticationException(AuthenticationExceptionType.MAX_AUTHENTICATION_ATTEMPTS_LOCK);
+        }
+
         if (!passwordEncoder.matches(password, account.getPasswordHash())) {
+            log.warn("Invalid credentials for account with id: {}", account.getId());
+            account.setAuthenticationAttempts((short) (account.getAuthenticationAttempts() + 1));
             throw new AuthenticationException(AuthenticationExceptionType.INVALID_CREDENTIALS);
         }
+
         log.info("Credentials checked for account with id: {}", account.getId());
         return account;
     }

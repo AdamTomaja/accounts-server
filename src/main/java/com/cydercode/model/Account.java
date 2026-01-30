@@ -31,6 +31,8 @@ public class Account {
     private Instant emailVerifiedAt;
     private String emailVerificationToken;
 
+    private short authenticationAttempts;
+
     @CreationTimestamp
     private Instant createdAt;
     @UpdateTimestamp
